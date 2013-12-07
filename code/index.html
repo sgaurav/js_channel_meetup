@@ -1,0 +1,77 @@
+<html>
+	<head>
+
+		<script src="../js/three.min.js"></script>
+		<script src="../js/tween.min.js"></script>
+		<script src="../js/TrackballControls.js"></script>
+		<style type="text/css">
+			body {
+				background-color:black;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			/* Create a renderer to render scene */
+			var renderer;
+
+			renderer = new THREE.WebGLRenderer({
+				antialias: true
+			});
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+			document.body.appendChild(renderer.domElement);
+
+			/* Create a camera and position it on z axis */
+			var camera;
+			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+			camera.position.z = 2000;
+
+			/* Lets create a scene */
+			var scene;
+
+			scene = new THREE.Scene();
+
+			//var controls = new THREE.TrackballControls(camera, renderer.domElement);
+
+			var geometry = new THREE.CubeGeometry(100, 50, 50);
+			var material = new THREE.MeshPhongMaterial({color: 0xff0000});
+			for (var x = -5; x < 5; x++) {
+				for (var y = -5; y < 5; y++) {
+					for (var z = -5; z < 5; z++) {
+						// add an object
+						var obj = new THREE.Mesh(geometry.clone(), material);
+
+						obj.position = {
+							x: x * 200,
+							y: y * 200,
+							z: z * 200
+						};
+
+						obj.orgpos = {x: obj.position.x, y: obj.position.y, z: obj.position.z};
+
+						scene.add(obj);
+					}
+				}
+			}
+
+			var l = new THREE.PointLight();
+			//l.position.set( 50, 50, 50 )
+			scene.add(l);
+
+			function animate() {
+				requestAnimationFrame(animate);
+
+				TWEEN.update();
+				//controls.update();
+				renderer.render(scene, camera);
+			}
+
+			animate();
+
+		</script>
+
+	</body>
+</html>
